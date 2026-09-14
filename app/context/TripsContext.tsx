@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { appendTrip, findTripById, removeTripFromCollection, updateTripInCollection } from '@/utils/tripCollection';
 
 export type Trip = {
   id: string;
@@ -74,22 +75,20 @@ export function TripsProvider({ children }: { children: ReactNode }) {
   };
 
   const addTrip = async (trip: NewTrip) => {
-    const newTrip: Trip = { ...trip, id: Date.now().toString() };
-    await saveTrips([...tripsRef.current, newTrip]);
+    const nextTrips = appendTrip(tripsRef.current, trip, Date.now().toString());
+    await saveTrips(nextTrips);
   };
 
   const updateTrip = async (id: string, changes: TripChanges) => {
-    const nextTrips = tripsRef.current.map((trip) =>
-      trip.id === id ? { ...trip, ...changes } : trip,
-    );
+    const nextTrips = updateTripInCollection(tripsRef.current, id, changes);
     await saveTrips(nextTrips);
   };
 
   const deleteTrip = async (id: string) => {
-    await saveTrips(tripsRef.current.filter((trip) => trip.id !== id));
+    await saveTrips(removeTripFromCollection(tripsRef.current, id));
   };
 
-  const getTrip = (id: string) => trips.find((trip) => trip.id === id);
+  const getTrip = (id: string) => findTripById(trips, id);
 
   return (
     <TripsContext.Provider
