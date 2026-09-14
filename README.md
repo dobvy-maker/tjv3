@@ -1,12 +1,13 @@
 # Travel Journal
 
-Travel Journal is a small React Native / Expo application for saving travel memories. A user can browse saved trips, add a trip with validation, open a details screen, and delete an entry. Trips are persisted locally so the journal remains available after restarting the app.
+Travel Journal is a small React Native / Expo application for saving travel memories. A user can browse saved trips, add a trip with validation, open a details screen, edit an existing trip, and delete an entry. Trips are persisted locally so the journal remains available after restarting the app.
 
 ## Main features
 
 - Trip list rendered with `FlatList`
 - Add-trip form with validation and user feedback
 - Trip details screen using a dynamic Expo Router parameter (`trip/[id]`)
+- Edit existing trips
 - Delete confirmation
 - Global state with React Context API
 - Persistent on-device storage with AsyncStorage
@@ -34,6 +35,7 @@ app/
   (tabs)/          # Trips and About tabs
   context/         # Shared trip state
   trip/[id].tsx    # Dynamic trip details route
+  edit-trip/[id].tsx # Edit existing trip
   add-trip.tsx     # Add trip form
 components/        # Reusable UI components
 constants/         # Theme values
@@ -61,7 +63,7 @@ npm test
 
 ## Architecture
 
-The project uses Context API because the global state is small and shared by only a few screens. `TripsProvider` owns the trip collection and exposes operations such as `addTrip`, `deleteTrip`, and `getTrip`. Form field values remain local `useState` because they are needed only by the add-trip screen.
+The project uses Context API because the global state is small and shared by only a few screens. `TripsProvider` owns the trip collection and exposes operations such as `addTrip`, `updateTrip`, `deleteTrip`, and `getTrip`. Form field values remain local `useState` because they are needed only by the add-trip screen.
 
 AsyncStorage is kept behind the Context layer. Screens do not access storage directly, which keeps UI code simpler and makes the data flow easier to explain and maintain.
 
@@ -80,7 +82,7 @@ The form validates required fields, date format, rating range, and input length.
 
 ## Limitations / future work
 
-This version is intentionally small. A future version could add photo selection, editing existing trips, cloud synchronization, authentication, maps, or a weather API. Those features are not required for the current architecture and would add additional dependencies and complexity.
+This version is intentionally small. A future version could add photo selection, cloud synchronization, authentication, maps, or a weather API. Those features are not required for the current architecture and would add additional dependencies and complexity.
 
 ## Build
 

@@ -35,6 +35,10 @@ export default function TripDetailsScreen() {
         <Text style={styles.label}>Notes</Text><Text style={styles.value}>{trip.notes || 'No notes added.'}</Text>
       </View>
 
+      <Pressable onPress={() => router.push(`/edit-trip/${trip.id}`)} style={({ pressed }) => [styles.editButton, pressed && styles.pressed]}>
+        <Text style={styles.editText}>Edit Trip</Text>
+      </Pressable>
+
       <Pressable onPress={confirmDelete} style={({ pressed }) => [styles.deleteButton, pressed && styles.pressed]}><Text style={styles.deleteText}>Delete Trip</Text></Pressable>
     </ScrollView>
   );
@@ -51,7 +55,9 @@ const styles = StyleSheet.create({
   label: { color: theme.colors.muted, fontSize: 13, fontWeight: '700', textTransform: 'uppercase' },
   value: { color: theme.colors.text, fontSize: 17, marginTop: 5, lineHeight: 24 },
   divider: { height: 1, backgroundColor: '#EAECF0', marginVertical: 18 },
-  deleteButton: { marginTop: 24, borderWidth: 1, borderColor: theme.colors.danger, padding: 15, borderRadius: 14, alignItems: 'center' },
+  editButton: { marginTop: 24, backgroundColor: theme.colors.primary, padding: 15, borderRadius: 14, alignItems: 'center' },
+  editText: { color: 'white', fontWeight: '700' },
+  deleteButton: { marginTop: 12, borderWidth: 1, borderColor: theme.colors.danger, padding: 15, borderRadius: 14, alignItems: 'center' },
   deleteText: { color: theme.colors.danger, fontWeight: '700' },
   link: { color: theme.colors.primary, marginTop: 16 },
   pressed: { opacity: 0.7 },

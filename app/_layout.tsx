@@ -16,6 +16,7 @@ export default function RootLayout() {
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="add-trip" options={{ title: 'Add Trip', headerBackTitle: 'Trips' }} />
           <Stack.Screen name="trip/[id]" options={{ title: 'Trip Details', headerBackTitle: 'Trips' }} />
+          <Stack.Screen name="edit-trip/[id]" options={{ title: 'Edit Trip', headerBackTitle: 'Details' }} />
         </Stack>
         <StatusBar style="auto" />
       </ThemeProvider>
