@@ -1,50 +1,94 @@
-# Welcome to your Expo app 👋
+# Travel Journal
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Travel Journal is a small React Native / Expo application for saving travel memories. A user can browse saved trips, add a trip with validation, open a details screen, and delete an entry. Trips are persisted locally so the journal remains available after restarting the app.
 
-## Get started
+## Main features
 
-1. Install dependencies
+- Trip list rendered with `FlatList`
+- Add-trip form with validation and user feedback
+- Trip details screen using a dynamic Expo Router parameter (`trip/[id]`)
+- Delete confirmation
+- Global state with React Context API
+- Persistent on-device storage with AsyncStorage
+- Haptic feedback after save/delete actions
+- Stack + Tabs navigation
+- Loading and storage-error states
+- Responsive Flexbox-based layout
+- 10 unit tests for validation and formatting utilities
 
-   ```bash
-   npm install
-   ```
+## Tech stack
 
-2. Start the app
+- React Native
+- Expo SDK 54
+- TypeScript
+- Expo Router
+- React Context API
+- AsyncStorage
+- Expo Haptics
+- Jest / jest-expo
 
-   ```bash
-   npx expo start
-   ```
+## Project structure
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+app/
+  (tabs)/          # Trips and About tabs
+  context/         # Shared trip state
+  trip/[id].tsx    # Dynamic trip details route
+  add-trip.tsx     # Add trip form
+components/        # Reusable UI components
+constants/         # Theme values
+utils/             # Pure validation/formatting functions
+__tests__/         # Unit tests
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Setup
 
-## Learn more
+Requirements: Node.js LTS and npm.
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+npx expo start -c
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Then open the project in a compatible Expo Go client or use the web option from Expo for development. The project targets Expo SDK 54.
 
-## Join the community
+Run quality checks:
 
-Join our community of developers creating universal apps.
+```bash
+npm run lint
+npm test
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Architecture
+
+The project uses Context API because the global state is small and shared by only a few screens. `TripsProvider` owns the trip collection and exposes operations such as `addTrip`, `deleteTrip`, and `getTrip`. Form field values remain local `useState` because they are needed only by the add-trip screen.
+
+AsyncStorage is kept behind the Context layer. Screens do not access storage directly, which keeps UI code simpler and makes the data flow easier to explain and maintain.
+
+## Navigation
+
+Expo Router provides file-based navigation. The `(tabs)` group provides Trips and About tabs, while the root Stack opens Add Trip and Trip Details. The details route receives the trip id through the dynamic `trip/[id].tsx` route.
+
+## Native device features
+
+1. **On-device storage:** AsyncStorage persists journal entries locally.
+2. **Haptic feedback:** Expo Haptics provides feedback after successful save and delete actions.
+
+## Error handling and security
+
+The form validates required fields, date format, rating range, and input length. Storage operations use `try/catch`, and the UI displays a friendly storage error instead of crashing. The project stores no passwords, tokens, or other sensitive information and does not hardcode API keys.
+
+## Limitations / future work
+
+This version is intentionally small. A future version could add photo selection, editing existing trips, cloud synchronization, authentication, maps, or a weather API. Those features are not required for the current architecture and would add additional dependencies and complexity.
+
+## Build
+
+For a preview Android build, configure EAS for the Expo account used to submit the project:
+
+```bash
+npx eas-cli init
+npx eas-cli build:configure
+```
+
+Then create a preview build with `npx eas-cli build --platform android --profile preview` after signing in and configuring the Expo project.
