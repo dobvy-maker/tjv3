@@ -15,7 +15,7 @@ Travel Journal is a small React Native / Expo application for saving travel memo
 - Stack + Tabs navigation
 - Loading and storage-error states
 - Responsive Flexbox-based layout
-- 10 unit tests for validation and formatting utilities
+- 17 unit tests covering validation, formatting, and core CRUD business logic
 
 ## Tech stack
 
@@ -40,7 +40,7 @@ app/
 components/        # Reusable UI components
 constants/         # Theme values
 utils/             # Pure validation/formatting functions
-__tests__/         # Unit tests
+__tests__/         # Validation + CRUD business-logic tests
 ```
 
 ## Setup
@@ -60,6 +60,25 @@ Run quality checks:
 npm run lint
 npm test
 ```
+
+
+## Screenshots
+
+Before final submission, add three real screenshots from the running app to `screenshots/` using these exact names:
+
+- `screenshots/home.png` — Trips list
+- `screenshots/add-trip.png` — Add Trip form
+- `screenshots/details.png` — Trip Details / Edit flow
+
+Then uncomment the Markdown image lines below:
+
+```md
+![Trips list](screenshots/home.png)
+![Add Trip](screenshots/add-trip.png)
+![Trip details](screenshots/details.png)
+```
+
+Real screenshots are intentionally not fabricated in this repository; they should come from the submitted build.
 
 ## Architecture
 
@@ -93,4 +112,4 @@ npx eas-cli init
 npx eas-cli build:configure
 ```
 
-Then create a preview build with `npx eas-cli build --platform android --profile preview` after signing in and configuring the Expo project.
+Then create a preview APK with `npx eas-cli build --platform android --profile preview` after signing in and configuring the Expo project. Save the successful build link for the presentation.
